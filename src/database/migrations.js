@@ -6,6 +6,7 @@ async function createUserTable(client){
                 id SERIAL PRIMARY KEY,
                 nombre VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
+                estado VARCHAR(10) DEFAULT 'inactivo' CHECK (estado IN ('activo', 'inactivo')),
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP WITH TIME ZONE
             );
