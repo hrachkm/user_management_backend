@@ -54,7 +54,6 @@ router.put('/users/:id', async (req, res) => {
 //Activar o desactivar un usuario
 router.put('/users/activation/:id', async (req, res) => {
     try {
-        console.log(req.body);
         const userActivationChange = await updateUserActivation(req.body, req.params.id);
         res.jsonp(userActivationChange);
     } catch (error) {
