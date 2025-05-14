@@ -13,7 +13,7 @@ export const getUsers = async() => {
 
 export const getOneUser = async(userId) => {
     try {
-        const user = (await client.query(`select * from users where id=${userId}`)).rows;
+        const user = (await client.query(`select * from users where id=$1`, [userId])).rows;
         return user[0]; 
     } catch (error) {
         console.error(error);
@@ -43,6 +43,20 @@ export const updateUser = async(payload, userId) => {
             [userId, payload.nombre, payload.email]
         )).rows;
         return userUpdated[0]; 
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const updateUserActivation = async(payload, userId) => {
+    try {    
+        const userUpdatedActivation = (await client.query(
+            `update users
+            set estado=$2, updated_At = NOW()
+            where id=$1 returning *`,
+            [userId, payload.estado]
+        )).rows;
+        return userUpdatedActivation[0]; 
     } catch (error) {
         console.error(error);
     }
