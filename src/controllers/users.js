@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { getUsers, getOneUser, addUser, updateUser, removeOneUser } from '../services/users.js';
+import { getUsers, getOneUser, addUser, updateUser, removeOneUser, updateUserActivation } from '../services/users.js';
 
 const router = Router();
 
@@ -45,6 +45,18 @@ router.put('/users/:id', async (req, res) => {
         const userUpdated = await updateUser(req.body, req.params.id);
 
         res.jsonp(userUpdated);
+    } catch (error) {
+        console.error(error.message);
+        res.status(404).jsonp({msg: error.message});
+    }
+});
+
+//Activar o desactivar un usuario
+router.put('/users/activation/:id', async (req, res) => {
+    try {
+        console.log(req.body);
+        const userActivationChange = await updateUserActivation(req.body, req.params.id);
+        res.jsonp(userActivationChange);
     } catch (error) {
         console.error(error.message);
         res.status(404).jsonp({msg: error.message});
